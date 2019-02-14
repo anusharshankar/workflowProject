@@ -1,0 +1,130 @@
+﻿@model IEnumerable<WorkflowProject.Models.Incident>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <div class="form-action no-color">
+        <p>
+            Find by name:<input type="text" name="SearchString" value="@ViewData["currentFilter"]"/>
+            <input type="submit" value="Search" class="btn btn-default" /> | <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> @Html.DisplayNameFor(model => model.Title)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FiledBy)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["urrentFilter"]"> @Html.DisplayNameFor(model => model.FiledOn)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.StepsTaken)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExpectedOutcome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActualOutcome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RootCause)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ChangedExpectation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NecessaryFix)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FixStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilerFeedback)
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FiledBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FiledOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Issues)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.StepsTaken)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpectedOutcome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualOutcome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RootCause)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChangedExpectation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NecessaryFix)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FixStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FilerFeedback)
+                    </td>*@
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IncidentId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IncidentId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IncidentId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>*@

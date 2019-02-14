@@ -1,0 +1,94 @@
+﻿@model WorkflowProject.Models.Policy
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Policy</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PScope)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PScope)
+        </dd>
+        <br/>
+        <dt>
+            @Html.DisplayNameFor(model => model.Procedures)
+        </dt>
+        <dd>
+            <table class="table">
+                @foreach (var proc in Model.Procedures)
+                {
+                    <tr>
+                        <th>Procedure Title</th>
+                        <th>Procedure Description</th>
+                        <th>Procedure Purpose</th>
+                    </tr>
+                    <tr>
+                        <td>@proc.PrTitle</td>
+                        <td>@proc.PrDesc </td>
+                        <td>@proc.PrPurpose</td>
+                    </tr>
+                }
+            </table>
+            <br/>
+                @foreach (var proc in Model.Procedures)
+                {
+                    @foreach (var p in proc.Processes)
+                    {
+                        <table class="table">
+                            <tr>
+                                <th>Process Title</th>
+                                <th>Process Description</th>
+                            </tr>
+                            <tr>
+                                <td>@p.ProcTitle</td>
+                                <td>@p.ProcDesc</td>
+                            </tr>
+                        </table>                        
+                        
+                            @foreach (var a in p.Actions)
+                            {
+                                <table class="table">
+                                    <tr>
+                                        <th>Action Title</th>
+                                        <th>Action Description</th>
+                                        <th>Departments</th>
+                                        <th>Is SRS Affected</th>
+                                    </tr>
+                                    <tr>
+                                        <td>@a.ATitle</td>
+                                        <td>@a.ADesc</td>
+                                        <td>@a.Departments</td>
+                                        <td>@a.IsSRSAffected</td>
+                                    </tr>
+                                </table>
+                               
+                            }                        
+                    }
+                }
+                    
+                </dd>
+            </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PolicyId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
