@@ -19,25 +19,26 @@ namespace WorkflowProject.Controllers
         }
 
         // GET: Policies
-        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? page)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter)//, int? page
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-            if(searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
+            //if(searchString != null)
+            //{
+            //    page = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
 
             ViewData["CurrentFilter"] = searchString;
 
            
 
-            var policies = from pol in _context.Policies select pol;
+            var policies = from pol in _context.Policies.Include(p => p.Procedures) select pol;
+            //.ThenInclude(q=>q.Processes).ThenInclude(r=>r.Actions)
             if (!String.IsNullOrEmpty(searchString))
             {
                 policies = policies.Where(q => q.PTitle.Contains(searchString));
@@ -45,9 +46,10 @@ namespace WorkflowProject.Controllers
 
             policies = policies.OrderByDescending(q => q.PTitle);
 
-            int pageSize = 5;
+            //int pageSize = 5;
 
-            return View(await PaginatedList<Policy>.CreateAsync(policies.AsNoTracking(), page ?? 1, pageSize));
+            //return View(await PaginatedList<Policy>.CreateAsync(policies.AsNoTracking(), page ?? 1, pageSize));
+            return View(await policies.AsNoTracking().ToListAsync());
         }
 
 
@@ -61,9 +63,9 @@ namespace WorkflowProject.Controllers
             }
 
             var policy = await _context.Policies
-                //.Include(p => p.Procedures)             
-                //.ThenInclude(p => p.Processes)
-                //.ThenInclude(a=>a.Actions)
+                .Include(p => p.Procedures)
+                .ThenInclude(p => p.Processes)
+                .ThenInclude(a => a.Actions)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.PolicyId == id);
 

@@ -22,6 +22,7 @@ namespace WorkflowProject.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Policy>().ToTable("Policy");
             modelBuilder.Entity<Procedure>().ToTable("Procedure");
             modelBuilder.Entity<Process>().ToTable("Process");
             modelBuilder.Entity<Action>().ToTable("Action");
